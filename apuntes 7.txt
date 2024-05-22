@@ -1,0 +1,51 @@
+EXAMEN
+
+sudo su
+sudo apt update
+sudo apt install mysql-server
+mysql -u root -p
+CREATE DATABASE (nombre);
+USE (nombre);
+CREATE TABLE (nombre de tabla)(valores);
+ALTER DATABASE GESTION_EMPLEADOS CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
+
+systemctl status mysql
+systemctl start mysql
+systemctl enable mysql
+
+CREATE TABLE libros (
+idLibro INT AUTO_INCREMENT PRIMARY KEY,
+titulo VARCHAR(200) NOT NULL,
+autor VARCHAR(100) NOT NULL,
+anio_publicacion INT,
+genero VARCHAR(100),
+precio DECIMAL(10,2)
+);
+
+systemctl stop mysql
+
+
+Vagrant.configure("2") do |config|
+  
+  config.vm.box = "ubuntu/xenial64"
+  config.vm.hostname = "Carlos-Hoyos"
+
+  config.vm.provision "shell", inline: <<-SHELL
+    sudo apt update
+    sudo apt install mysql-server
+
+    echo "-- Insertar datos de ejemplo en la tabla 'libros'" > /home/vagrant/datos_libros.sql
+    echo "INSERT INTO gestion_libreria.libros (titulo, autor, anio_publicacion, genero, precio) VALUES" >> /home/vagrant/datos_libros.sql
+    echo "('Cien Años de Soledad', 'Gabriel García Márquez', 1967, 'Novela', 15.99)," >> /home/vagrant/datos_libros.sql
+    echo "('Don Quijote de la Mancha', 'Miguel de Cervantes', 1605, 'Novela', 12.99)," >> /home/vagrant/datos_libros.sql
+    echo "('1984', 'George Orwell', 1949, 'Distopía', 13.99);" >> /home/vagrant/datos_libros.sql
+  SHELL
+end
+
+
+
+Entrar en la base de datos
+ALTER DATABASE gestion_libreria CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
+
+
+ 
